@@ -3,7 +3,7 @@ import type { MouseEvent } from 'react';
 import { scrollToSection } from '../utils/navigation';
 import { useLanguage } from '../context/LanguageContext';
 
-const HERO_IMG = 'https://images.unsplash.com/photo-1550951196-1992d5cb8c2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxCdWNoYXJlc3QlMjBSb21hbmlhJTIwc2t5bGluZSUyMG5pZ2h0JTIwbGlnaHRzJTIwY2l0eXxlbnwxfHx8fDE3NzMxNTYyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080';
+const HERO_IMG = 'https://images.unsplash.com/photo-1689655451590-be38de8003e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxCdWNoYXJlc3QlMjBQYWxhY2UlMjBvZiUyMFBhcmxpYW1lbnQlMjBSb21hbmlhJTIwZGF5dGltZXxlbnwxfHx8fDE3NzMxNTY4MzR8MA&ixlib=rb-4.1.0&q=80&w=1080';
 
 interface HeroProps {
   onOpenModal: () => void;
@@ -33,23 +33,23 @@ export function Hero({ onOpenModal }: HeroProps) {
             overflow: 'hidden',
             minHeight: 'clamp(520px, 65vw, 700px)',
             display: 'flex',
-            alignItems: 'center',
           }}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="items-end sm:items-center"
         >
           {/* Background image */}
           <img
             src={HERO_IMG}
-            alt="Business building"
+            alt="Bucharest Romania"
             style={{
               position: 'absolute',
               inset: 0,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center',
+              objectPosition: 'center 50%',
               display: 'block',
             }}
           />
@@ -57,17 +57,18 @@ export function Hero({ onOpenModal }: HeroProps) {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(105deg, rgba(8,12,20,0.88) 0%, rgba(8,12,20,0.65) 50%, rgba(8,12,20,0.25) 100%)',
+            background: 'linear-gradient(100deg, rgba(10,22,45,0.92) 0%, rgba(10,22,45,0.72) 42%, rgba(10,22,45,0.10) 100%)',
           }} />
 
           {/* Text content */}
           <div
+            className="w-full sm:w-4/5 md:w-[72%]"
             style={{
               position: 'relative',
               zIndex: 1,
-              padding: '60px clamp(40px, 5vw, 80px)',
-              width: '65%',
-              maxWidth: 860,
+              padding: 'clamp(28px, 6vw, 60px) clamp(20px, 5vw, 80px)',
+              paddingBottom: 'clamp(28px, 6vw, 60px)',
+              maxWidth: 920,
             }}
           >
             <motion.p
@@ -91,11 +92,11 @@ export function Hero({ onOpenModal }: HeroProps) {
             <motion.h1
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(1.9rem, 3.8vw, 3.25rem)',
+                fontSize: 'clamp(1.5rem, 5vw, 3.25rem)',
                 fontWeight: 700,
                 lineHeight: 1.1,
                 color: '#ffffff',
-                marginBottom: 20,
+                marginBottom: 16,
                 letterSpacing: '-0.025em',
               }}
               initial={{ opacity: 0, y: 14 }}
@@ -112,10 +113,10 @@ export function Hero({ onOpenModal }: HeroProps) {
             <motion.p
               style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: 'clamp(0.875rem, 1.2vw, 1rem)',
+                fontSize: 'clamp(0.8rem, 1.8vw, 1rem)',
                 color: 'rgba(255,255,255,0.55)',
                 lineHeight: 1.72,
-                marginBottom: 36,
+                marginBottom: 28,
                 maxWidth: 400,
               }}
               initial={{ opacity: 0, y: 10 }}
@@ -126,18 +127,20 @@ export function Hero({ onOpenModal }: HeroProps) {
             </motion.p>
 
             <motion.div
-              style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}
+              className="flex flex-col sm:flex-row"
+              style={{ gap: 10, flexWrap: 'wrap' }}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <button
                 onClick={onOpenModal}
+                className="w-full sm:w-auto"
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.9rem',
+                  fontSize: '0.875rem',
                   fontWeight: 600,
-                  padding: '13px 30px',
+                  padding: '12px 28px',
                   background: '#ffffff',
                   color: '#1a2535',
                   border: 'none',
@@ -154,11 +157,12 @@ export function Hero({ onOpenModal }: HeroProps) {
               <a
                 href="#services"
                 onClick={e => nav(e, '#services')}
+                className="w-full sm:w-auto text-center"
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: '0.9rem',
+                  fontSize: '0.875rem',
                   fontWeight: 600,
-                  padding: '13px 26px',
+                  padding: '12px 24px',
                   background: 'transparent',
                   color: 'rgba(255,255,255,0.7)',
                   border: '1.5px solid rgba(255,255,255,0.18)',
@@ -166,6 +170,7 @@ export function Hero({ onOpenModal }: HeroProps) {
                   textDecoration: 'none',
                   whiteSpace: 'nowrap',
                   transition: 'border-color 0.2s, color 0.2s',
+                  display: 'block',
                 }}
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.5)';
