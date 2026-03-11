@@ -56,6 +56,11 @@ export function Contact() {
     { label: t.contact.phoneLabels[2], value: '+40 799 216 717' },
   ];
 
+  const socialHover = (el: HTMLAnchorElement, active: boolean) => {
+    el.style.background = active ? '#2F71BE' : '#f1f5f9';
+    el.style.color = active ? '#fff' : '#64748b';
+  };
+
   return (
     <section
       id="contact"
@@ -159,7 +164,7 @@ export function Contact() {
 
             <div style={{ height: 1, background: '#e8eef6', marginBottom: 28 }} />
 
-            {/* Email */}
+            {/* Email + social icons in one row */}
             <div>
               <p style={{
                 fontFamily: 'var(--font-sans)',
@@ -172,14 +177,79 @@ export function Contact() {
               }}>
                 {t.contact.email}
               </p>
-              <p style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '1rem',
-                fontWeight: 600,
-                color: '#2F71BE',
-              }}>
-                info@lexbusinesshub.ro
-              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <p style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  color: '#2F71BE',
+                  margin: 0,
+                }}>
+                  info@lexbusinesshub.ro
+                </p>
+                <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                  {/* Facebook */}
+                  <a
+                    href="https://www.facebook.com/profile.php?id=61587770663779&mibextid=wwXIfr&rdid=JKmq4rSY34QHWmq3"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 36, height: 36, borderRadius: 8,
+                      background: '#f1f5f9', color: '#64748b',
+                      transition: 'background 0.2s, color 0.2s',
+                      textDecoration: 'none',
+                    }}
+                    onMouseEnter={e => socialHover(e.currentTarget as HTMLAnchorElement, true)}
+                    onMouseLeave={e => socialHover(e.currentTarget as HTMLAnchorElement, false)}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                  </a>
+                  {/* Instagram */}
+                  <a
+                    href="https://www.instagram.com/lexbusinesshub.romania?igsh=MXNiOWJ4dzcwbTUyMA%3D%3D&utm_source=qr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 36, height: 36, borderRadius: 8,
+                      background: '#f1f5f9', color: '#64748b',
+                      transition: 'background 0.2s, color 0.2s',
+                      textDecoration: 'none',
+                    }}
+                    onMouseEnter={e => socialHover(e.currentTarget as HTMLAnchorElement, true)}
+                    onMouseLeave={e => socialHover(e.currentTarget as HTMLAnchorElement, false)}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                      <circle cx="12" cy="12" r="4"/>
+                      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+                    </svg>
+                  </a>
+                  {/* TikTok */}
+                  <a
+                    href="#"
+                    aria-label="TikTok"
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 36, height: 36, borderRadius: 8,
+                      background: '#f1f5f9', color: '#64748b',
+                      transition: 'background 0.2s, color 0.2s',
+                      textDecoration: 'none',
+                    }}
+                    onMouseEnter={e => socialHover(e.currentTarget as HTMLAnchorElement, true)}
+                    onMouseLeave={e => socialHover(e.currentTarget as HTMLAnchorElement, false)}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.17 8.17 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/>
+                    </svg>
+                  </a>
+                </div>
+              </div>
             </div>
           </motion.div>
 
@@ -244,7 +314,7 @@ export function Contact() {
                   onFocus={e => Object.assign(e.currentTarget.style, inputFocus)}
                   onBlur={e => Object.assign(e.currentTarget.style, inputBase)}
                 >
-                  {t.contact.form.subjects.map((s, i) => (
+                  {t.contact.form.subjects.map((s: string, i: number) => (
                     <option key={i} value={s}>{s}</option>
                   ))}
                 </select>
