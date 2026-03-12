@@ -116,24 +116,37 @@ export function Contact() {
                 {t.contact.phones}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {phones.map((p, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                {phones.map((p: { label: string; value: string }, i: number) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8 }}>
                     <span style={{
                       fontFamily: 'var(--font-sans)',
                       fontSize: '0.8125rem',
                       color: '#94a3b8',
-                      minWidth: 'min(160px, 45%)',
+                      flexShrink: 0,
                     }}>
                       {p.label}
                     </span>
                     <span style={{
-                      fontFamily: 'var(--font-sans)',
-                      fontSize: '1rem',
-                      fontWeight: 600,
-                      color: '#0f172a',
-                    }}>
+                      borderBottom: '1px dashed #e2e8f0',
+                      flex: 1,
+                      marginBottom: 3,
+                    }} />
+                    <a
+                      href={`tel:${p.value.replace(/\s/g, '')}`}
+                      style={{
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '1rem',
+                        fontWeight: 600,
+                        color: '#0f172a',
+                        textDecoration: 'none',
+                        flexShrink: 0,
+                        transition: 'color 0.2s',
+                      }}
+                      onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.color = '#2F71BE'}
+                      onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => e.currentTarget.style.color = '#0f172a'}
+                    >
                       {p.value}
-                    </span>
+                    </a>
                   </div>
                 ))}
               </div>
@@ -154,12 +167,63 @@ export function Contact() {
               }}>
                 {t.contact.address}
               </p>
-              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>
-                Louis Blanc, 26, Sector 1, Et. 3
-              </p>
-              <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', color: '#64748b' }}>
-                {t.contact.addressHint}
-              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                <div>
+                  <p style={{ fontFamily: 'var(--font-sans)', fontSize: '1rem', fontWeight: 600, color: '#0f172a', marginBottom: 2 }}>
+                    Louis Blanc, 26, Sector 1, Et. 3
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-sans)', fontSize: '0.875rem', color: '#64748b' }}>
+                    București, Romania
+                  </p>
+                </div>
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=Strada+Louis+Blanc+26,+Sector+1,+Bucharest,+Romania"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '8px 14px',
+                    background: '#2F71BE',
+                    color: '#fff',
+                    borderRadius: 8,
+                    textDecoration: 'none',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '0.8125rem',
+                    fontWeight: 600,
+                    flexShrink: 0,
+                    transition: 'background 0.2s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.background = '#235d9e'}
+                  onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.background = '#2F71BE'}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                  </svg>
+                  {t.contact.getDirections ?? 'Маршрут'}
+                </a>
+              </div>
+              {/* Embedded Google Map */}
+              <div
+                className="block md:hidden"
+                style={{
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  border: '1.5px solid #e8eef6',
+                  boxShadow: '0 2px 12px rgba(47,113,190,0.07)',
+                }}
+              >
+                <iframe
+                  title="LEX BUSINESS HUB — офис"
+                  src="https://maps.google.com/maps?q=Strada+Louis+Blanc+26,+Sector+1,+Bucharest,+Romania&output=embed&z=16"
+                  width="100%"
+                  height="220"
+                  style={{ display: 'block', border: 'none' }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
             </div>
 
             <div style={{ height: 1, background: '#e8eef6', marginBottom: 28 }} />
@@ -232,7 +296,7 @@ export function Contact() {
                   </a>
                   {/* TikTok */}
                   <a
-                    href="https://www.tiktok.com/@lex.business.hub?_r=1&_t=ZN-94bGXYWWBKI"
+                    href="#"
                     aria-label="TikTok"
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
