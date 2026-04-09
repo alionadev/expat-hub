@@ -39,7 +39,29 @@ const OG_IMAGE = 'https://www.lexbusinesshub.ro/og-image.jpg';
 export default async function middleware(req: Request): Promise<Response> {
   const cookie = req.headers.get('cookie') ?? '';
   const match  = cookie.match(/(?:^|; )lang=([^;]*)/);
-  const lang   = match && LANGS.includes(match[1]) ? match[1] : DEFAULT;
+  
+  let lang = DEFAULT;
+  
+  // Если в куках есть валидный язык, используем его
+  if (match && LANGS.includes(match[1])) {
+    lang = match[1];
+  } else {
+    // Иначе проверяем Accept-Language, но приоритет для русского
+    const acceptLang = req.headers.get('accept-language') ?? '';
+    
+    // Приоритет: проверяем наличие русского в Accept-Language
+    if (acceptLang.includes('ru')) {
+      lang = 'ru';
+    } else {
+      // Иначе парсим первый язык из Accept-Language
+      const firstLang = acceptLang.split(',')[0]?.split('-')[0]?.trim().toLowerCase();
+      if (firstLang && LANGS.includes(firstLang)) {
+        lang = firstLang;
+      } else {
+        lang = DEFAULT;
+      }
+    }
+  }
   const m      = META[lang];
 
   // подтягиваем оригинальный index.html
