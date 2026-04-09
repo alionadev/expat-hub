@@ -84,6 +84,7 @@ export default async function middleware(req: Request): Promise<Response> {
     headers: {
       'content-type':  'text/html; charset=utf-8',
       'cache-control': 'no-store',
+      'vary': 'Accept-Language, Cookie',
     },
   });
 }
