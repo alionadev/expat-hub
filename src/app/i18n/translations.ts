@@ -26,8 +26,8 @@ export const translations = {
       title: 'Despre noi',
       description: 'Suntem o echipă de experți în afaceri internaționale care ajută antreprenorii străini să deschidă și să dezvolte afaceri în România. Oferim soluții complete — de la înregistrarea companiei și obținerea permisului de ședere, până la marketing și scalarea afacerii.',
       yearsLabel: 'Ani de experiență',
-      clientsLabel: 'Clienți mulțumiți',
-      successLabel: 'Rata de succes',
+      clientsLabel: 'companii deschise',
+      successLabel: 'traduceri',
     },
     // Services
     services: {
@@ -320,8 +320,8 @@ export const translations = {
       title: 'О нас',
       description: 'Мы команда экспертов в международных бизнес-делах, помогающая предпринимателям из-за рубежа открывать и развивать бизнес в Румынии. Предлагаем комплексные решения — от регистрации компании и получения вида на жительство до маркетинга и масштабирования бизнеса.',
       yearsLabel: 'Лет опыта',
-      clientsLabel: 'Удовлетворенных клиентов',
-      successLabel: 'Процент успешных проектов',
+      clientsLabel: 'Открытых компаний',
+      successLabel: 'Переводов',
     },
     services: {
       label: 'Наши',
@@ -608,8 +608,8 @@ export const translations = {
       title: 'About Us',
       description: 'We are a team of international business experts helping foreign entrepreneurs open and develop businesses in Romania. We offer comprehensive solutions — from company registration and obtaining residence permits to marketing and scaling your business.',
       yearsLabel: 'Years of Experience',
-      clientsLabel: 'Satisfied Clients',
-      successLabel: 'Success Rate',
+      clientsLabel: 'Сompanies established',
+      successLabel: 'Translations',
     },
     services: {
       label: 'Our',
@@ -893,8 +893,8 @@ export const translations = {
       title: 'Про нас',
       description: 'Ми команда експертів у міжнародних бізнес-делах, які допомагають іноземним підприємцям відкривати та розвивати бізнес у Румунії. Ми пропонуємо комплексні рішення — від реєстрації компанії та отримання посвідки на проживання до маркетингу та масштабування бізнесу.',
       yearsLabel: 'Років досвіду',
-      clientsLabel: 'Задоволених клієнтів',
-      successLabel: 'Процент успішних проектів',
+      clientsLabel: 'Відкритих компаній',
+      successLabel: 'Перекладів',
     },
     services: {
       label: 'Наші',

@@ -9,9 +9,9 @@ export function About() {
   const { t } = useLanguage();
 
   const stats = [
-    { num: '5+',   label: t.about.yearsLabel   },
-    { num: '500+', label: t.about.clientsLabel  },
-    { num: '95%',  label: t.about.successLabel  },
+    { num: '15+',   label: t.about.yearsLabel   },
+    { num: '200+', label: t.about.clientsLabel  },
+    { num: '1000+',  label: t.about.successLabel  },
   ];
 
   return (
