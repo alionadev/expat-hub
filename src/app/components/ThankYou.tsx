@@ -17,7 +17,7 @@ function trackConversion() {
     window.fbq('track', 'Lead');
   }
 
-  // Google Analytics 4 — generate_lead event (для будущего GA4)
+  // Optional custom conversion hook if GA4 is added later.
   if (typeof window.gtag === 'function') {
     window.gtag('event', 'generate_lead', {
       event_category: 'consultation',
