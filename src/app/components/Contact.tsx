@@ -33,10 +33,12 @@ export function Contact() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ name: '', phone: '', subject: '', message: '' });
   const [phoneValid, setPhoneValid] = useState(false);
+  const [phoneTouched, setPhoneTouched] = useState(false);
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error' | 'not_configured'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPhoneTouched(true);
     if (!phoneValid) {
       setStatus('idle');
       return;
@@ -330,10 +332,16 @@ export function Contact() {
                 <PhoneInputField
                   value={formData.phone}
                   onChange={val => setFormData({ ...formData, phone: val })}
+                  onValidChange={valid => { setPhoneValid(valid); setPhoneTouched(true); }}
                   required
                   label={t.contact.form.phone}
                   variant="default"
                 />
+                {phoneTouched && !phoneValid && (
+                  <p style={{ fontSize: '0.75rem', color: '#ef4444', marginTop: 4, fontFamily: 'var(--font-sans)' }}>
+                    Некорректный номер
+                  </p>
+                )}
               </div>
 
               <div>
