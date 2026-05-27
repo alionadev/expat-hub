@@ -332,7 +332,7 @@ export const translations = {
         'Relocare business',
         'Legalizare notarială',
         'Lansare business',
-        'Scalare',
+        'Promovare Business',
         'Aspecte juridice',
         'Taxe',
         'Conținut / social media',

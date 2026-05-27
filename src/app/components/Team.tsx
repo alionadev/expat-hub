@@ -1,11 +1,98 @@
 import { motion } from 'motion/react';
 import { useInView } from 'motion/react';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Instagram, Linkedin, Calendar, Star } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 const photo1 = '/team/aliona-1.jpg';
 const photo2 = '/team/Aliona-2.jpg';
 const photo3 = '/team/aliona-3.jpg';
+
+const firstMemberContent = {
+  ro: {
+    role: 'Traducător',
+    about:
+      'Traducător profesionist și coordonator al echipei de traducători autorizați a companiei VerbaTranslations. Specializată în traducerea documentelor, legalizare și coordonarea proiectelor internaționale, ajutând clienții să pregătească rapid și corect documentele pentru studii, afaceri și proceduri de migrație.',
+    highlights: [
+      { label: 'Experiență profesională', value: '15+ ani' },
+      { label: 'Documente traduse', value: '20000+' },
+      { label: 'Direcții lingvistice', value: '4+' },
+    ],
+  },
+  ru: {
+    role: 'Переводчик',
+    about:
+      'Профессиональный переводчик и координатор команды авторизованных переводчиков компании VerbaTranslations. Специализируется на переводах документов, легализации и сопровождении международных проектов, помогая клиентам быстро и правильно подготовить документы для обучения, бизнеса и миграционных процедур.',
+    highlights: [
+      { label: 'Опыт работы', value: '15+ лет' },
+      { label: 'Переведено документов', value: '20000+' },
+      { label: 'Языковых направлений', value: '4+' },
+    ],
+  },
+  en: {
+    role: 'Translator',
+    about:
+      'Professional translator and coordinator of VerbaTranslations authorized translators team. Specialises in document translation, legalisation, and support for international projects, helping clients quickly and accurately prepare documents for education, business, and migration procedures.',
+    highlights: [
+      { label: 'Work experience', value: '15+ years' },
+      { label: 'Documents translated', value: '20000+' },
+      { label: 'Language pairs', value: '4+' },
+    ],
+  },
+  uk: {
+    role: 'Перекладач',
+    about:
+      'Професійний перекладач і координатор команди авторизованих перекладачів компанії VerbaTranslations. Спеціалізується на перекладі документів, легалізації та супроводі міжнародних проєктів, допомагаючи клієнтам швидко й правильно підготувати документи для навчання, бізнесу та міграційних процедур.',
+    highlights: [
+      { label: 'Досвід роботи', value: '15+ років' },
+      { label: 'Перекладено документів', value: '20000+' },
+      { label: 'Мовних напрямів', value: '4+' },
+    ],
+  },
+} as const;
+
+const secondMemberContent = {
+  ro: {
+    role: 'Jurist',
+    about:
+      'Jurist român cu peste 11 ani de experiență în drept corporativ, asistență juridică pentru business și procese migraționale. Oferă suport juridic complet clienților străini și companiilor românești, ajutând la deschiderea afacerii, înregistrarea documentelor, obținerea autorizațiilor și asistență în toate etapele activității în România.',
+    highlights: [
+      { label: 'Experiență profesională', value: '11+ ani' },
+      { label: 'Proiecte juridice', value: '500+' },
+      { label: 'Asistență completă', value: '100%' },
+    ],
+  },
+  ru: {
+    role: 'Юрист',
+    about:
+      'Румынский юрист с более чем 11-летним опытом работы в сфере корпоративного права, юридического сопровождения бизнеса и миграционных процессов. Оказывает комплексную юридическую поддержку иностранным клиентам и румынским компаниям, помогая с открытием бизнеса, регистрацией документов, разрешениями и сопровождением на всех этапах деятельности в Румынии.',
+    highlights: [
+      { label: 'Опыт работы', value: '11+ лет' },
+      { label: 'Юридических проектов', value: '500+' },
+      { label: 'Комплексное сопровождение', value: '100%' },
+    ],
+  },
+  en: {
+    role: 'Lawyer',
+    about:
+      'Romanian lawyer with more than 11 years of experience in corporate law, legal support for businesses, and migration processes. Provides comprehensive legal assistance to foreign clients and Romanian companies, helping with business launch, document registration, permits, and support at every stage of operations in Romania.',
+    highlights: [
+      { label: 'Work experience', value: '11+ years' },
+      { label: 'Legal projects', value: '500+' },
+      { label: 'Full support', value: '100%' },
+    ],
+  },
+  uk: {
+    role: 'Юрист',
+    about:
+      'Румунський юрист з більш ніж 11-річним досвідом у сфері корпоративного права, юридичного супроводу бізнесу та міграційних процесів. Надає комплексну юридичну підтримку іноземним клієнтам і румунським компаніям, допомагаючи з відкриттям бізнесу, реєстрацією документів, дозволами та супроводом на всіх етапах діяльності в Румунії.',
+    highlights: [
+      { label: 'Досвід роботи', value: '11+ років' },
+      { label: 'Юридичних проєктів', value: '500+' },
+      { label: 'Комплексний супровід', value: '100%' },
+    ],
+  },
+} as const;
 
 const team = [
   {
@@ -402,6 +489,29 @@ function TeamMemberCard({ member, index, isInView }: { member: typeof team[0], i
 export function Team() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { lang } = useLanguage();
+  const localizedTeam = useMemo(() => {
+    const firstMember = firstMemberContent[lang];
+    const secondMember = secondMemberContent[lang];
+
+    return team.map((member, index) =>
+      index === 0
+        ? {
+            ...member,
+            role: firstMember.role,
+            about: firstMember.about,
+            highlights: firstMember.highlights,
+          }
+        : index === 1
+          ? {
+              ...member,
+              role: secondMember.role,
+              about: secondMember.about,
+              highlights: secondMember.highlights,
+            }
+          : member
+    );
+  }, [lang]);
 
   return (
     <section id="team" className="py-20 sm:py-28 md:py-32 bg-white overflow-hidden relative" ref={ref}>
@@ -441,7 +551,7 @@ export function Team() {
 
         {/* Team grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-          {team.map((member, index) => (
+          {localizedTeam.map((member, index) => (
             <TeamMemberCard key={index} member={member} index={index} isInView={isInView} />
           ))}
         </div>
