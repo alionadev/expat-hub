@@ -276,8 +276,8 @@ const team = [
       { label: 'Языков', value: '4+' },
     ],
     socials: {
-      instagram: '#', // TODO: Добавить реальную ссылку
-      linkedin: '#', // TODO: Добавить реальную ссылку
+      instagram: 'https://www.instagram.com/ali.bivolaru/',
+      linkedin: 'https://www.linkedin.com/in/aliona-bivolaru-170466185/',
     },
     calendly: '#', // TODO: Добавить ссылку на Google Calendar
     googleReviews: '#', // TODO: Добавить ссылку на Google профиль
@@ -315,8 +315,8 @@ const team = [
       { label: 'Успешность', value: '100%' },
     ],
     socials: {
-      instagram: '#', // TODO: Добавить реальную ссылку
-      linkedin: '#', // TODO: Добавить реальную ссылку
+      instagram: 'https://www.instagram.com/aliona_pantelei?igsh=cTdmaWpjYTZ6bzc%3D',
+      linkedin: 'https://www.linkedin.com/in/aliona-pantelei-551200a6/',
     },
     calendly: '#', // TODO: Добавить ссылку на Google Calendar
     googleReviews: '#', // TODO: Добавить ссылку на Google профиль
@@ -354,8 +354,8 @@ const team = [
       { label: 'Средний ROI', value: '240%' },
     ],
     socials: {
-      instagram: '#', // TODO: Добавить реальную ссылку
-      linkedin: '#', // TODO: Добавить реальную ссылку
+      instagram: 'https://www.instagram.com/aliona.rs/',
+      linkedin: 'https://www.linkedin.com/in/aliona-rusu-370072173/',
     },
     calendly: '#', // TODO: Добавить ссылку на Google Calendar
     googleReviews: '#', // TODO: Добавить ссылку на Google профиль
