@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useInView } from 'motion/react';
-import { useMemo, useRef, useState } from 'react';
-import { Instagram, Linkedin, Calendar, Star } from 'lucide-react';
+import { useMemo, useRef } from 'react';
+import { Instagram, Linkedin } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const photo1 = '/team/aliona-1.jpg';
@@ -105,7 +105,7 @@ const secondMemberContent = {
 const thirdMemberContent = {
   ro: {
     name: 'Aliona Rusu',
-    role: 'Marketing',
+    role: 'Marketer',
     about:
       'Specialistă în marketing cu focus pe dezvoltarea afacerilor pe piețe noi. Creează strategii de promovare pentru companiile care își extind activitatea în România și Europa de Est.',
     highlights: [
@@ -136,7 +136,7 @@ const thirdMemberContent = {
   },
   ru: {
     name: 'Алёна Русу',
-    role: 'Маркетинг',
+    role: 'Маркетолог',
     about:
       'Маркетолог с фокусом на развитие бизнеса в новых рынках. Создаю стратегии продвижения для компаний, которые расширяют деятельность в Румынии и Восточной Европе.',
     highlights: [
@@ -167,7 +167,7 @@ const thirdMemberContent = {
   },
   en: {
     name: 'Aliona Rusu',
-    role: 'Marketing',
+    role: 'Marketer',
     about:
       'Marketing specialist focused on business growth in new markets. Builds promotion strategies for companies expanding their operations in Romania and Eastern Europe.',
     highlights: [
@@ -198,7 +198,7 @@ const thirdMemberContent = {
   },
   uk: {
     name: 'Альона Русу',
-    role: 'Маркетинг',
+    role: 'Маркетолог',
     about:
       'Маркетолог із фокусом на розвиток бізнесу на нових ринках. Створює стратегії просування для компаній, які розширюють діяльність у Румунії та Східній Європі.',
     highlights: [
@@ -345,7 +345,7 @@ const team = [
   },
   {
     name: 'Алёна Русу',
-    role: 'Маркетинг',
+    role: 'Маркетолог',
     image: photo3,
     about: 'Маркетолог с фокусом на развитие бизнеса в новых рынках. Создаю стратегии продвижения для компаний, которые расширяют деятельность в Румынии и Восточной Европе.',
     highlights: [
@@ -395,8 +395,6 @@ function TeamMemberCard({
   isInView: boolean,
   ui: typeof teamUiContent.ru,
 }) {
-  const [activeTab, setActiveTab] = useState<'about' | 'reviews'>('about');
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 60 }}
@@ -441,188 +439,37 @@ function TeamMemberCard({
 
         {/* Content */}
         <div className="p-4 sm:p-6 flex-1 flex flex-col">
-          <div className="flex gap-2 mb-4">
-            <button
-              onClick={() => setActiveTab('about')}
-              className={`flex-1 py-2 px-3 rounded-[10px] border transition-all duration-300 ${
-                activeTab === 'about'
-                  ? 'bg-[#2F71BE] text-white border-[#2F71BE]'
-                  : 'bg-[#f8fbff] text-[#64748b] border-[#dde5f8] hover:text-[#0f172a] hover:border-[#bfd1f3]'
-              }`}
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.825rem',
-                fontWeight: 600,
-              }}
-            >
-              {ui.aboutTab}
-            </button>
-            <button
-              onClick={() => setActiveTab('reviews')}
-              className={`flex-1 py-2 px-3 rounded-[10px] border transition-all duration-300 ${
-                activeTab === 'reviews'
-                  ? 'bg-[#2F71BE] text-white border-[#2F71BE]'
-                  : 'bg-[#f8fbff] text-[#64748b] border-[#dde5f8] hover:text-[#0f172a] hover:border-[#bfd1f3]'
-              }`}
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.825rem',
-                fontWeight: 600,
-              }}
-            >
-              {ui.reviewsTab}
-            </button>
-          </div>
-
-          <div className="flex-1">
-            {activeTab === 'about' ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
-                className="flex flex-col gap-5"
+          <div className="flex-1 flex flex-col">
+            <div className="flex flex-col gap-3">
+              <h4
+                className="text-[#0f1a30]"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                }}
               >
-                <p
-                  className="text-[#475569] leading-relaxed"
-                  style={{
-                    fontFamily: 'var(--font-sans)',
-                    fontSize: '0.8rem',
-                  }}
-                >
-                  {member.about}
-                </p>
-
-                <div className="grid grid-cols-3 gap-2">
-                  {member.highlights.map((highlight, i) => (
-                    <div key={i} className="text-center">
-                      <div
-                        className="text-[#2F71BE] mb-0.5"
-                        style={{
-                          fontFamily: 'var(--font-serif)',
-                          fontSize: '1.1rem',
-                          fontWeight: 600,
-                        }}
-                      >
-                        {highlight.value}
-                      </div>
-                      <div
-                        className="text-[#64748b]"
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '0.6rem',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        {highlight.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
-                className="flex flex-col gap-4"
+                {ui.aboutTab}
+              </h4>
+              <p
+                className="text-[#475569] leading-relaxed"
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '0.8rem',
+                }}
               >
-                <div className="pb-3 border-b border-[#dde5f8]">
-                  <div className="flex items-center justify-between gap-3">
-                    <div>
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <div
-                          className="text-[#0f1a30]"
-                          style={{
-                            fontFamily: 'var(--font-serif)',
-                            fontSize: '1.5rem',
-                            fontWeight: 600,
-                          }}
-                        >
-                          {member.rating.toFixed(1)}
-                        </div>
-                        <div className="flex gap-0.5">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={14} fill="#2F71BE" color="#2F71BE" />
-                          ))}
-                        </div>
-                      </div>
-                      <p
-                        className="text-[#64748b]"
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '0.65rem',
-                        }}
-                      >
-                        {member.reviewsCount} {ui.reviewsLabel}
-                      </p>
-                    </div>
-                    <a
-                      href={member.googleReviews}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-2.5 py-1 rounded-[8px] border border-[#dde5f8] bg-[#f8fbff] text-[#2F71BE] hover:bg-[#2F71BE] hover:text-white hover:border-[#2F71BE] transition-all duration-300"
-                      style={{
-                        fontFamily: 'var(--font-sans)',
-                        fontSize: '0.65rem',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Google
-                    </a>
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  {member.reviews.map((review, i) => (
-                    <div key={i} className="pb-3 border-b border-[#eef3fc] last:border-0">
-                      <div className="flex items-start justify-between mb-1.5">
-                        <p
-                          className="text-[#0f1a30]"
-                          style={{
-                            fontFamily: 'var(--font-sans)',
-                            fontSize: '0.7rem',
-                            fontWeight: 600,
-                          }}
-                        >
-                          {review.author}
-                        </p>
-                        <div className="flex gap-0.5">
-                          {[...Array(review.rating)].map((_, i) => (
-                            <Star key={i} size={9} fill="#2F71BE" color="#2F71BE" />
-                          ))}
-                        </div>
-                      </div>
-                      <p
-                        className="text-[#475569] mb-1.5 leading-relaxed"
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '0.7rem',
-                        }}
-                      >
-                        {review.text}
-                      </p>
-                      <p
-                        className="text-[#64748b]"
-                        style={{
-                          fontFamily: 'var(--font-sans)',
-                          fontSize: '0.6rem',
-                        }}
-                      >
-                        {review.date}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+                {member.about}
+              </p>
+            </div>
           </div>
 
           {/* Divider */}
           <div className="h-px bg-gradient-to-r from-transparent via-[#d7e4fa] to-transparent my-4 flex-shrink-0" />
 
-          {/* Social & CTA */}
-          <div className="flex items-center justify-between gap-4 flex-shrink-0">
+          {/* Socials */}
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* Socials */}
             <div className="flex gap-2">
               <a
@@ -644,20 +491,6 @@ function TeamMemberCard({
                 <Linkedin size={14} />
               </a>
             </div>
-
-            {/* Consultation CTA */}
-            <a
-              href="#contact"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-[10px] bg-[#2F71BE] text-white hover:bg-[#255d9f] transition-all duration-300 group/btn"
-              style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.7rem',
-                fontWeight: 500,
-              }}
-            >
-              <Calendar size={12} />
-              <span className="hidden sm:inline">{ui.consultation}</span>
-            </a>
           </div>
         </div>
       </div>
