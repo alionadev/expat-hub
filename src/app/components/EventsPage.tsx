@@ -1,6 +1,5 @@
 import { ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { useLanguage } from '../context/LanguageContext';
@@ -243,6 +242,17 @@ const registrationContent: Record<Lang, {
   uk: { title: 'ЗАПОВНІТЬ ФОРМУ, ЩОБ ОСОБИСТО ДІЗНАТИСЯ ВСІ ДЕТАЛІ ЗАХОДУ', priceLabel: 'Вартість участі', places: 'місць', remaining: 'Залишилось:', notice: 'Кількість учасників обмежена. Після реєстрації менеджер зв’яжеться з вами для підтвердження участі.', date: 'Дата', time: 'Час', format: 'Формат', live: 'Жива зустріч', name: 'Ім’я та прізвище', phone: 'Телефон', email: 'Email', participant: 'Тип учасника', individual: 'Фізична особа', company: 'Юридична особа', telegram: 'Telegram', consent: 'Надсилаючи заявку, ви приймаєте умови обробки персональних даних та', privacy: 'політику конфіденційності.', submit: 'ПІДТВЕРДИТИ УЧАСТЬ', sending: 'НАДСИЛАННЯ...', error: 'Не вдалося надіслати заявку. Спробуйте ще раз.' },
 };
 
+function formatRomanianPhone(value: string) {
+  let digits = value.replace(/\D/g, '');
+  if (digits.startsWith('40')) digits = digits.slice(2);
+  digits = digits.slice(0, 9);
+
+  const first = digits.slice(0, 3);
+  const second = digits.slice(3, 6);
+  const third = digits.slice(6, 9);
+  return `+40${first ? ` ${first}` : ''}${second ? ` ${second}` : ''}${third ? ` ${third}` : ''}`;
+}
+
 export function EventsPage() {
   const { lang } = useLanguage();
   const content = eventContent[lang];
@@ -250,21 +260,17 @@ export function EventsPage() {
   const speaker = speakerContent[lang];
   const outcomes = outcomesContent[lang];
   const registration = registrationContent[lang];
-  const navigate = useNavigate();
-  const [registrationForm, setRegistrationForm] = useState({ name: '', phone: '', email: '', participant: 'individual', telegram: '', consent: false });
+  const [registrationForm, setRegistrationForm] = useState({ name: '', phone: '+40', email: '', participant: 'individual', telegram: '', consent: false });
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'sending' | 'error'>('idle');
   const [showStickyCta, setShowStickyCta] = useState(false);
 
   useEffect(() => {
     const hero = document.querySelector('.event-hero');
-    const form = document.getElementById('event-registration');
-    if (!hero || !form) return;
+    if (!hero) return;
 
     const updateStickyCta = () => {
       const heroBottom = hero.getBoundingClientRect().bottom;
-      const formRect = form.getBoundingClientRect();
-      const formVisible = formRect.top < window.innerHeight && formRect.bottom > 0;
-      setShowStickyCta(heroBottom <= 0 && !formVisible);
+      setShowStickyCta(heroBottom <= 0);
     };
 
     updateStickyCta();
@@ -275,7 +281,7 @@ export function EventsPage() {
       window.removeEventListener('resize', updateStickyCta);
     };
   }, []);
-  const registrationHref = '#event-registration';
+  const checkoutHref = 'https://buy.stripe.com/test_7sYdR92C4f9Jf7FgS29AA00';
 
   const submitRegistration = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -287,10 +293,10 @@ export function EventsPage() {
         email: registrationForm.email,
         entityType: registrationForm.participant === 'individual' ? registration.individual : registration.company,
         subject: 'Регистрация на практический семинар',
-        message: `Telegram: ${registrationForm.telegram || '-'}\nДата: 29 июня 2026, 18:00\nСтоимость: 300 RON`,
+        message: `Telegram: ${registrationForm.telegram || '-'}\nДата: 23 июня 2026, 18:00\nСтоимость: 300 RON`,
         leadType: 'consultation',
       });
-      navigate('/thank-you');
+      window.location.assign(checkoutHref);
     } catch {
       setRegistrationStatus('error');
     }
@@ -302,7 +308,7 @@ export function EventsPage() {
       <main className="events-main">
         <section className="event-hero" aria-labelledby="event-title">
           <div className="event-meta">
-            <span><strong>29</strong> {content.month}</span>
+            <span><strong>23</strong> {content.month}</span>
             <span><strong>20</strong> {content.seats}</span>
             <span><strong>2026</strong></span>
           </div>
@@ -338,7 +344,7 @@ export function EventsPage() {
 
             <a
               className="event-cta"
-              href={registrationHref}
+              href={checkoutHref}
             >
               <span>{content.cta}</span>
               <ArrowDown aria-hidden="true" />
@@ -396,7 +402,7 @@ export function EventsPage() {
 
             <a
               className="event-speaker-cta"
-              href={registrationHref}
+              href={checkoutHref}
             >
               <span>{speaker.cta}</span>
               <ArrowDown aria-hidden="true" />
@@ -442,36 +448,36 @@ export function EventsPage() {
               <p className="event-registration-notice">{registration.notice}</p>
 
               <dl className="event-registration-meta">
-                <div><dt>{registration.date}</dt><dd>29.06.2026</dd></div>
+                <div><dt>{registration.date}</dt><dd>23.06.2026</dd></div>
                 <div><dt>{registration.time}</dt><dd>18:00</dd></div>
                 <div><dt>{registration.format}</dt><dd>{registration.live}</dd></div>
               </dl>
 
               <div className="event-registration-price"><span>{registration.priceLabel}</span><strong>300 RON</strong></div>
 
-              <div id="event-registration" className="event-registration-fields">
-                <label>{registration.name} *<input required value={registrationForm.name} onChange={e => setRegistrationForm({ ...registrationForm, name: e.target.value })} /></label>
-                <label>{registration.phone} *<input required type="tel" value={registrationForm.phone} onChange={e => setRegistrationForm({ ...registrationForm, phone: e.target.value })} /></label>
-                <label>{registration.email} *<input required type="email" value={registrationForm.email} onChange={e => setRegistrationForm({ ...registrationForm, email: e.target.value })} /></label>
+              <div className="event-registration-fields">
+                <label>{registration.name} *<input required aria-required="true" autoComplete="name" placeholder={registration.name} value={registrationForm.name} onChange={e => setRegistrationForm({ ...registrationForm, name: e.target.value })} /></label>
+                <label>{registration.phone} *<input required aria-required="true" type="tel" inputMode="numeric" autoComplete="tel" pattern="^\+40 7\d{2} \d{3} \d{3}$" title="+40 7xx xxx xxx" value={registrationForm.phone} onFocus={e => { if (!e.currentTarget.value) setRegistrationForm({ ...registrationForm, phone: '+40' }); }} onChange={e => setRegistrationForm({ ...registrationForm, phone: formatRomanianPhone(e.target.value) })} /></label>
+                <label>{registration.email} *<input required aria-required="true" type="email" autoComplete="email" placeholder="name@example.com" value={registrationForm.email} onChange={e => setRegistrationForm({ ...registrationForm, email: e.target.value })} /></label>
                 <fieldset>
                   <legend>{registration.participant} *</legend>
-                  <label><input type="radio" name="participant" checked={registrationForm.participant === 'individual'} onChange={() => setRegistrationForm({ ...registrationForm, participant: 'individual' })} />{registration.individual}</label>
-                  <label><input type="radio" name="participant" checked={registrationForm.participant === 'company'} onChange={() => setRegistrationForm({ ...registrationForm, participant: 'company' })} />{registration.company}</label>
+                  <label><input required aria-required="true" type="radio" name="participant" checked={registrationForm.participant === 'individual'} onChange={() => setRegistrationForm({ ...registrationForm, participant: 'individual' })} />{registration.individual}</label>
+                  <label><input required aria-required="true" type="radio" name="participant" checked={registrationForm.participant === 'company'} onChange={() => setRegistrationForm({ ...registrationForm, participant: 'company' })} />{registration.company}</label>
                 </fieldset>
                 <label>{registration.telegram}<input value={registrationForm.telegram} onChange={e => setRegistrationForm({ ...registrationForm, telegram: e.target.value })} /></label>
               </div>
 
               <label className="event-registration-consent">
-                <input required type="checkbox" checked={registrationForm.consent} onChange={e => setRegistrationForm({ ...registrationForm, consent: e.target.checked })} />
-                <span>{registration.consent} <u>{registration.privacy}</u></span>
+                <input required aria-required="true" type="checkbox" checked={registrationForm.consent} onChange={e => setRegistrationForm({ ...registrationForm, consent: e.target.checked })} />
+                <span><strong>*</strong> {registration.consent} <u>{registration.privacy}</u></span>
               </label>
               {registrationStatus === 'error' && <p className="event-registration-error">{registration.error}</p>}
-              <button type="submit" disabled={registrationStatus === 'sending'}>{registrationStatus === 'sending' ? registration.sending : registration.submit}</button>
+              <button type="submit" disabled={registrationStatus === 'sending' || !registrationForm.consent}>{registrationStatus === 'sending' ? registration.sending : registration.submit}</button>
             </form>
           </div>
         </section>
 
-        <a className={`event-sticky-cta${showStickyCta ? ' event-sticky-cta-visible' : ''}`} href={registrationHref}>
+        <a className={`event-sticky-cta${showStickyCta ? ' event-sticky-cta-visible' : ''}`} href={checkoutHref}>
           <span>{content.cta}</span>
           <ArrowDown aria-hidden="true" />
         </a>
