@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowLeft, ArrowRight } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowDown, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { useLanguage } from '../context/LanguageContext';
@@ -125,9 +125,12 @@ const speakerContent: Record<Lang, {
   sectionTitle: string;
   name: string;
   role: string;
+  intro?: string;
+  background?: string;
   credentials: string[];
   specializes: string;
   specializations: string[];
+  experience?: string;
   believes: string;
   belief: string;
   work: string;
@@ -135,7 +138,7 @@ const speakerContent: Record<Lang, {
   cta: string;
 }> = {
   ro: {
-    sectionTitle: 'SPEAKERUL EVENIMENTULUI',
+    sectionTitle: 'SPEAKERII EVENIMENTULUI',
     name: 'Natalia Mardari',
     role: 'Expert contabil CECCAR',
     credentials: ['Expert contabil', 'Membru CECCAR', 'Consultant financiar', 'Fondator NASTALSI EXPERT SRL'],
@@ -148,7 +151,7 @@ const speakerContent: Record<Lang, {
     cta: 'PARTICIPĂ LA SEMINAR',
   },
   ru: {
-    sectionTitle: 'СПИКЕР МЕРОПРИЯТИЯ',
+    sectionTitle: 'СПИКЕРЫ МЕРОПРИЯТИЯ',
     name: 'Наталья Мардарь',
     role: 'Бухгалтер эксперт CECCAR',
     credentials: ['Бухгалтер-эксперт', 'Член CECCAR', 'Финансовый консультант', 'Соучредитель NASTALSI EXPERT SRL'],
@@ -161,7 +164,7 @@ const speakerContent: Record<Lang, {
     cta: 'УЧАСТВОВАТЬ В СЕМИНАРЕ',
   },
   en: {
-    sectionTitle: 'EVENT SPEAKER',
+    sectionTitle: 'EVENT SPEAKERS',
     name: 'Natalia Mardari',
     role: 'CECCAR expert accountant',
     credentials: ['Expert accountant', 'CECCAR member', 'Financial consultant', 'Co-founder of NASTALSI EXPERT SRL'],
@@ -174,7 +177,7 @@ const speakerContent: Record<Lang, {
     cta: 'JOIN THE SEMINAR',
   },
   uk: {
-    sectionTitle: 'СПІКЕР ЗАХОДУ',
+    sectionTitle: 'СПІКЕРИ ЗАХОДУ',
     name: 'Наталія Мардар',
     role: 'Бухгалтер-експерт CECCAR',
     credentials: ['Бухгалтер-експерт', 'Член CECCAR', 'Фінансовий консультант', 'Співзасновник NASTALSI EXPERT SRL'],
@@ -185,6 +188,65 @@ const speakerContent: Record<Lang, {
     work: 'У роботі',
     workText: 'робить акцент на прозорості, увазі до деталей та індивідуальному підході до кожного клієнта.',
     cta: 'ВЗЯТИ УЧАСТЬ У СЕМІНАРІ',
+  },
+};
+
+const secondSpeakerContent: Record<Lang, Omit<(typeof speakerContent)[Lang], 'sectionTitle' | 'cta'>> = {
+  ro: {
+    name: 'Aliona Pantelei',
+    role: 'Jurist | Fondatoarea Pantelei Legal Consulting',
+    intro: 'Jurist cu peste 11 ani de experiență în practica juridică din România.',
+    background: 'Locuiește în România de peste 24 de ani și înțelege în profunzime particularitățile mediului juridic și de afaceri românesc, ceea ce îi permite să ofere asistență eficientă atât antreprenorilor locali, cât și investitorilor străini care deschid sau dezvoltă afaceri în țară.',
+    credentials: ['Peste 11 ani de practică juridică', 'Peste 24 de ani în România', 'Drept corporativ și migrațional', 'Fondatoarea Pantelei Legal Consulting'],
+    specializes: 'Specializată în:',
+    specializations: ['drept corporativ și asistență juridică pentru afaceri', 'înregistrarea și administrarea companiilor în România', 'dreptul migrației, permis de ședere temporară, permanentă și cetățenia română'],
+    experience: 'De-a lungul anilor de practică, a asistat cu succes antreprenori și companii în soluționarea problemelor juridice legate de afaceri, investiții și relocarea în România.',
+    believes: 'Este convinsă',
+    belief: 'că o afacere stabilă începe cu securitate juridică, respectarea legislației și gestionarea competentă a riscurilor.',
+    work: 'În activitatea sa',
+    workText: 'pune accent pe soluții practice, abordare individuală și asistență pe termen lung pentru clienți.',
+  },
+  ru: {
+    name: 'Алёна Пантелей',
+    role: 'Юрист | Основатель Pantelei Legal Consulting',
+    intro: 'Юрист с более чем 11-летним опытом юридической практики в Румынии.',
+    background: 'Проживает в Румынии более 24 лет и глубоко понимает особенности румынской правовой и деловой среды, что позволяет эффективно сопровождать как местных предпринимателей, так и иностранных инвесторов, открывающих или развивающих бизнес в стране.',
+    credentials: ['Более 11 лет юридической практики', 'Более 24 лет в Румынии', 'Корпоративное и миграционное право', 'Основатель Pantelei Legal Consulting'],
+    specializes: 'Специализируется на:',
+    specializations: ['корпоративном праве и юридическом сопровождении бизнеса', 'регистрации и администрировании компаний в Румынии', 'миграционном праве, вопросах ВНЖ, ПМЖ и гражданства Румынии'],
+    experience: 'За годы практики успешно сопровождала предпринимателей и компании в решении юридических вопросов, связанных с ведением бизнеса, инвестициями и переездом в Румынию.',
+    believes: 'Уверена',
+    belief: 'что стабильный бизнес начинается с юридической безопасности, соблюдения законодательства и грамотного управления рисками.',
+    work: 'В своей работе',
+    workText: 'делает акцент на практических решениях, индивидуальном подходе и долгосрочном сопровождении клиентов.',
+  },
+  en: {
+    name: 'Aliona Pantelei',
+    role: 'Lawyer | Founder of Pantelei Legal Consulting',
+    intro: 'A lawyer with more than 11 years of legal practice in Romania.',
+    background: 'She has lived in Romania for more than 24 years and deeply understands the Romanian legal and business environment, enabling her to effectively support both local entrepreneurs and foreign investors opening or developing businesses in the country.',
+    credentials: ['More than 11 years of legal practice', 'More than 24 years in Romania', 'Corporate and migration law', 'Founder of Pantelei Legal Consulting'],
+    specializes: 'Specializes in:',
+    specializations: ['corporate law and legal support for businesses', 'company registration and administration in Romania', 'migration law, temporary and permanent residence, and Romanian citizenship'],
+    experience: 'Throughout her practice, she has successfully supported entrepreneurs and companies in resolving legal matters related to business operations, investments and relocation to Romania.',
+    believes: 'Is confident',
+    belief: 'that a stable business begins with legal security, compliance with legislation and competent risk management.',
+    work: 'In her work',
+    workText: 'she focuses on practical solutions, an individual approach and long-term client support.',
+  },
+  uk: {
+    name: 'Альона Пантелей',
+    role: 'Юрист | Засновниця Pantelei Legal Consulting',
+    intro: 'Юрист із більш ніж 11-річним досвідом юридичної практики в Румунії.',
+    background: 'Проживає в Румунії понад 24 роки та глибоко розуміє особливості румунського правового й ділового середовища, що дозволяє ефективно супроводжувати як місцевих підприємців, так і іноземних інвесторів, які відкривають або розвивають бізнес у країні.',
+    credentials: ['Понад 11 років юридичної практики', 'Понад 24 роки в Румунії', 'Корпоративне та міграційне право', 'Засновниця Pantelei Legal Consulting'],
+    specializes: 'Спеціалізується на:',
+    specializations: ['корпоративному праві та юридичному супроводі бізнесу', 'реєстрації й адмініструванні компаній у Румунії', 'міграційному праві, питаннях тимчасового й постійного проживання та громадянства Румунії'],
+    experience: 'За роки практики успішно супроводжувала підприємців і компанії у вирішенні юридичних питань, пов’язаних із веденням бізнесу, інвестиціями та переїздом до Румунії.',
+    believes: 'Переконана',
+    belief: 'що стабільний бізнес починається з юридичної безпеки, дотримання законодавства та грамотного управління ризиками.',
+    work: 'У своїй роботі',
+    workText: 'робить акцент на практичних рішеннях, індивідуальному підході та довгостроковому супроводі клієнтів.',
   },
 };
 
@@ -258,29 +320,11 @@ export function EventsPage() {
   const content = eventContent[lang];
   const audience = audienceContent[lang];
   const speaker = speakerContent[lang];
+  const secondSpeaker = secondSpeakerContent[lang];
   const outcomes = outcomesContent[lang];
   const registration = registrationContent[lang];
   const [registrationForm, setRegistrationForm] = useState({ name: '', phone: '+40', email: '', participant: 'individual', telegram: '', consent: false });
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'sending' | 'error'>('idle');
-  const [showStickyCta, setShowStickyCta] = useState(false);
-
-  useEffect(() => {
-    const hero = document.querySelector('.event-hero');
-    if (!hero) return;
-
-    const updateStickyCta = () => {
-      const heroBottom = hero.getBoundingClientRect().bottom;
-      setShowStickyCta(heroBottom <= 0);
-    };
-
-    updateStickyCta();
-    window.addEventListener('scroll', updateStickyCta, { passive: true });
-    window.addEventListener('resize', updateStickyCta);
-    return () => {
-      window.removeEventListener('scroll', updateStickyCta);
-      window.removeEventListener('resize', updateStickyCta);
-    };
-  }, []);
   const checkoutHref = 'https://buy.stripe.com/test_7sYdR92C4f9Jf7FgS29AA00';
 
   const submitRegistration = async (event: React.FormEvent) => {
@@ -313,17 +357,31 @@ export function EventsPage() {
             <span><strong>2026</strong></span>
           </div>
 
-          <div className="event-location-row">
-            <span><ArrowRight aria-hidden="true" /> {content.start}</span>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=Strada+Louis+Blanc+26,+Sector+1,+Bucharest,+Romania" target="_blank" rel="noreferrer">
-              LOUIS BLANC, 26 <ArrowLeft aria-hidden="true" />
-            </a>
-          </div>
+          <div className="event-hero-copy">
+            <div className="event-location-row">
+              <span><ArrowRight aria-hidden="true" /> {content.start}</span>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Strada+Louis+Blanc+26,+Sector+1,+Bucharest,+Romania" target="_blank" rel="noreferrer">
+                <ArrowRight aria-hidden="true" /> LOUIS BLANC, 26
+              </a>
+            </div>
 
-          <div className="event-heading">
-            <h1 id="event-title">{content.title}</h1>
-            <div className="event-heading-line" />
-            <p>{content.subtitle}</p>
+            <div className="event-heading">
+              <h1 id="event-title">{content.title}</h1>
+              <div className="event-heading-line" />
+              <p>{content.subtitle}</p>
+            </div>
+
+            <div className="event-desktop-actions">
+              <div className="event-desktop-remaining" aria-label={`${content.total} 20 ${content.places}`}>
+                <span>{content.total}:</span>
+                <strong>20</strong>
+                <span>{content.places}</span>
+              </div>
+              <a className="event-desktop-cta" href={checkoutHref}>
+                <span>{content.cta}</span>
+                <ArrowDown aria-hidden="true" />
+              </a>
+            </div>
           </div>
 
           <div className="event-poster">
@@ -369,8 +427,9 @@ export function EventsPage() {
         <section className="event-speaker" aria-labelledby="event-speaker-title">
           <div className="event-speaker-inner">
             <h2 id="event-speaker-title">{speaker.sectionTitle}</h2>
+            <div className="event-speaker-divider" aria-hidden="true" />
 
-            <div className="event-speaker-intro">
+            <div className="event-speaker-intro event-speaker-mobile">
               <div className="event-speaker-photo" role="img" aria-label={speaker.name}>
                 <img src="/images/спикер.png" alt={speaker.name} />
               </div>
@@ -383,7 +442,7 @@ export function EventsPage() {
               </div>
             </div>
 
-            <div className="event-speaker-details">
+            <div className="event-speaker-details event-speaker-mobile">
               <div className="event-speaker-detail event-speaker-detail-wide">
                 <h3>{speaker.specializes}</h3>
                 <ul>
@@ -400,10 +459,55 @@ export function EventsPage() {
               </div>
             </div>
 
+            <div className="event-speaker-desktop">
+              {[
+                { content: speaker, image: '/images/спикер.png' },
+                { content: secondSpeaker, image: '/team/Aliona-2.jpg' },
+              ].map((item, index) => (
+                <article className={`event-speaker-profile event-speaker-profile-${index + 1}`} key={item.content.name}>
+                  <div className="event-speaker-profile-photo">
+                    <img src={item.image} alt={item.content.name} />
+                    <ul className="event-speaker-profile-credentials">
+                      {item.content.credentials.map(credential => <li key={credential}>{credential}</li>)}
+                    </ul>
+                  </div>
+                  <div className="event-speaker-profile-copy">
+                    <header>
+                      <h3>{item.content.name}</h3>
+                      <p>{item.content.role}</p>
+                      {item.content.intro && <p className="event-speaker-profile-intro">{item.content.intro}</p>}
+                      {item.content.background && <p className="event-speaker-profile-background">{item.content.background}</p>}
+                    </header>
+                    <div className="event-speaker-profile-specializes">
+                      <h4>{item.content.specializes}</h4>
+                      <ul>
+                        {item.content.specializations.map(specialization => <li key={specialization}>{specialization}</li>)}
+                      </ul>
+                      {item.content.experience && <p className="event-speaker-profile-experience">{item.content.experience}</p>}
+                    </div>
+                    <div className="event-speaker-profile-notes">
+                      <div>
+                        <h4>{item.content.believes}</h4>
+                        <p>{item.content.belief}</p>
+                      </div>
+                      <div>
+                        <h4>{item.content.work}</h4>
+                        <p>{item.content.workText}</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
             <a
-              className="event-speaker-cta"
+              className="event-speaker-cta event-speaker-mobile"
               href={checkoutHref}
             >
+              <span>{speaker.cta}</span>
+              <ArrowDown aria-hidden="true" />
+            </a>
+            <a className="event-speaker-desktop-cta" href={checkoutHref}>
               <span>{speaker.cta}</span>
               <ArrowDown aria-hidden="true" />
             </a>
@@ -433,7 +537,11 @@ export function EventsPage() {
         <section className="event-registration" aria-labelledby="event-registration-title">
           <div className="event-registration-inner">
             <div className="event-registration-heading">
-              <h2 id="event-registration-title">{registration.title}</h2>
+              <h2 id="event-registration-title">
+                {lang === 'ru'
+                  ? <>ЗАПОЛНИТЕ ФОРМУ,<br /><em>ЧТОБЫ ЛИЧНО УЗНАТЬ</em><br />ВСЕ ДЕТАЛИ МЕРОПРИЯТИЯ</>
+                  : registration.title}
+              </h2>
               <p>{registration.priceLabel}</p>
               <span />
               <strong>300 RON</strong>
@@ -477,10 +585,6 @@ export function EventsPage() {
           </div>
         </section>
 
-        <a className={`event-sticky-cta${showStickyCta ? ' event-sticky-cta-visible' : ''}`} href={checkoutHref}>
-          <span>{content.cta}</span>
-          <ArrowDown aria-hidden="true" />
-        </a>
       </main>
       <Footer />
     </div>
