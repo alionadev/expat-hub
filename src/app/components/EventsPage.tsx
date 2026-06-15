@@ -429,40 +429,57 @@ export function EventsPage() {
             <h2 id="event-speaker-title">{speaker.sectionTitle}</h2>
             <div className="event-speaker-divider" aria-hidden="true" />
 
-            <div className="event-speaker-intro event-speaker-mobile">
-              <div className="event-speaker-photo" role="img" aria-label={speaker.name}>
-                <img src="/images/спикер.png" alt={speaker.name} />
-              </div>
-              <div className="event-speaker-person">
-                <h3>{speaker.name}</h3>
-                <p>{speaker.role}</p>
-                <ul className="event-speaker-credentials">
-                  {speaker.credentials.map(item => <li key={item}>{item}</li>)}
-                </ul>
-              </div>
-            </div>
+            <div className="event-speaker-mobile-list event-speaker-mobile">
+              {[
+                { content: speaker, image: '/images/спикер.png' },
+                { content: secondSpeaker, image: '/team/pantelei-event.jpg' },
+              ].map((item) => (
+                <article key={item.content.name}>
+                  <div className="event-speaker-intro">
+                    <div className="event-speaker-photo">
+                      <img src={item.image} alt={item.content.name} />
+                    </div>
 
-            <div className="event-speaker-details event-speaker-mobile">
-              <div className="event-speaker-detail event-speaker-detail-wide">
-                <h3>{speaker.specializes}</h3>
-                <ul>
-                  {speaker.specializations.map(item => <li key={item}>{item}</li>)}
-                </ul>
-              </div>
-              <div className="event-speaker-detail">
-                <h3>{speaker.believes}</h3>
-                <p>{speaker.belief}</p>
-              </div>
-              <div className="event-speaker-detail">
-                <h3>{speaker.work}</h3>
-                <p>{speaker.workText}</p>
-              </div>
+                    <div className="event-speaker-person">
+                      <h3>{item.content.name}</h3>
+                      <p>{item.content.role}</p>
+
+                      <ul className="event-speaker-credentials">
+                        {item.content.credentials.map((credential) => (
+                          <li key={credential}>{credential}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div className="event-speaker-details">
+                    <div className="event-speaker-detail event-speaker-detail-wide">
+                      <h3>{item.content.specializes}</h3>
+                      <ul>
+                        {item.content.specializations.map((specialization) => (
+                          <li key={specialization}>{specialization}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="event-speaker-detail">
+                      <h3>{item.content.believes}</h3>
+                      <p>{item.content.belief}</p>
+                    </div>
+
+                    <div className="event-speaker-detail">
+                      <h3>{item.content.work}</h3>
+                      <p>{item.content.workText}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
 
             <div className="event-speaker-desktop">
               {[
                 { content: speaker, image: '/images/спикер.png' },
-                { content: secondSpeaker, image: '/team/Aliona-2.jpg' },
+                { content: secondSpeaker, image: '/team/pantelei-event.jpg' },
               ].map((item, index) => (
                 <article className={`event-speaker-profile event-speaker-profile-${index + 1}`} key={item.content.name}>
                   <div className="event-speaker-profile-photo">
