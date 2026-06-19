@@ -85,8 +85,8 @@ export default async function middleware(req: Request): Promise<Response> {
   const pageMeta = isEventPage ? EVENT_META[lang] : m;
   const ogImage = isEventPage ? EVENT_OG_IMAGE : BASE_OG_IMAGE;
   const ogType = isEventPage ? 'event' : 'website';
-  const ogImageWidth = isEventPage ? '818' : '1200';
-  const ogImageHeight = isEventPage ? '429' : '630';
+  const ogImageWidth = '1200';
+  const ogImageHeight = '630';
   const ogImageAlt = isEventPage
     ? 'LEX Business Hub practical seminar in Bucharest'
     : 'LEX Business Hub — Servicii juridice și de afaceri în România';
@@ -101,6 +101,7 @@ export default async function middleware(req: Request): Promise<Response> {
     .replace(/(<html[^>]*lang=")[^"]*(")/,             `$1${m.lang}$2`)
     .replace(/(<title>)[^<]*(<\/title>)/,              `$1${pageMeta.title}$2`)
     .replace(/(<meta\s+name="description"[^>]*content=")[^"]*(")/,       `$1${pageMeta.desc}$2`)
+    .replace(/(<link\s+rel="canonical"[^>]*href=")[^"]*(")/,             `$1${pageUrl}$2`)
     .replace(/(<meta\s+property="og:type"[^>]*content=")[^"]*(")/,       `$1${ogType}$2`)
     .replace(/(<meta\s+property="og:title"[^>]*content=")[^"]*(")/,      `$1${pageMeta.ogTitle}$2`)
     .replace(/(<meta\s+property="og:description"[^>]*content=")[^"]*(")/,`$1${pageMeta.ogDesc}$2`)

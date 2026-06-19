@@ -405,8 +405,8 @@ export function EventsPage() {
         <meta property="og:image" content={EVENT_OG_IMAGE} />
         <meta property="og:image:secure_url" content={EVENT_OG_IMAGE} />
         <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:width" content="818" />
-        <meta property="og:image:height" content="429" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="LEX Business Hub practical seminar in Bucharest" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={seo.ogTitle} />
