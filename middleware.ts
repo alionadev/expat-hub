@@ -125,6 +125,6 @@ export default async function middleware(req: Request): Promise<Response> {
 }
 
 export const config = {
-  matcher: ['/', '/index.html', '/events', '/events/'],
+  matcher: ['/', '/index.html'],
   runtime: 'edge',
 };

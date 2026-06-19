@@ -22,6 +22,14 @@ const figmaAssetPlugin = {
 };
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'index.html'),
+        events: path.resolve(__dirname, 'events.html'),
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),
