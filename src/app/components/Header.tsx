@@ -79,6 +79,19 @@ export function Header() {
     }
   };
 
+  const logoClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setMenuOpen(false);
+
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 120);
+      return;
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   /* ── Minimalist lang switcher — plain text with dividers ── */
   const LangSwitcher = ({ small = false }: { small?: boolean }) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 0 }}>
@@ -154,8 +167,8 @@ export function Header() {
       >
         {/* ── LOGO ── */}
         <a
-          href="#"
-          onClick={e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          href="/"
+          onClick={logoClick}
           style={{ flexShrink: 0, display: 'flex', alignItems: 'center', textDecoration: 'none', gap: 8 }}
         >
           <span style={{
