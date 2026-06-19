@@ -2,7 +2,7 @@
   "rewrites": [
     { "source": "/events", "destination": "/events.html" },
     { "source": "/events/", "destination": "/events.html" },
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/:path*", "destination": "/index.html" }
   ],
   "headers": [
     {
