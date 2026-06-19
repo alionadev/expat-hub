@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { useLanguage } from '../context/LanguageContext';
 
-const SITE_URL = 'https://lexbusinesshub.ro';
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
+const SITE_URL = 'https://www.lexbusinesshub.ro';
+const OG_IMAGE = `${SITE_URL}/og-image-base.jpg`;
 
 type LangKey = 'ro' | 'ru' | 'en' | 'uk';
 
@@ -293,7 +293,7 @@ export function SEO() {
       <meta property="og:locale:alternate" content="uk_UA" />
       <meta property="og:image" content={OG_IMAGE} />
       <meta property="og:image:secure_url" content={OG_IMAGE} />
-      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="LEX BUSINESS HUB — Business Registration & Consulting in Romania" />

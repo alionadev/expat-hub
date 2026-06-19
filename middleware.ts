@@ -34,7 +34,42 @@ const META: Record<string, { lang: string; title: string; desc: string; ogTitle:
 
 const LANGS = Object.keys(META);
 const DEFAULT = 'ru';
-const OG_IMAGE = 'https://www.lexbusinesshub.ro/og-image.jpg';
+const SITE_URL = 'https://www.lexbusinesshub.ro';
+const BASE_OG_IMAGE = `${SITE_URL}/og-image-base.jpg`;
+const EVENT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+const OG_LOCALES: Record<string, string> = {
+  ro: 'ro_RO',
+  ru: 'ru_RU',
+  en: 'en_US',
+  uk: 'uk_UA',
+};
+
+const EVENT_META: Record<string, { title: string; desc: string; ogTitle: string; ogDesc: string }> = {
+  ro: {
+    title: 'Seminar practic în București — LEX Business Hub',
+    desc: 'Seminar practic despre contabilitate și administrarea companiei pentru antreprenori în România.',
+    ogTitle: 'Seminar practic: contabilitate și administrarea companiei',
+    ogDesc: 'Eveniment LEX Business Hub pentru antreprenori: responsabilități, verificări și administrarea companiei.',
+  },
+  ru: {
+    title: 'Практический семинар в Бухаресте — LEX Business Hub',
+    desc: 'Практический семинар о бухгалтерии и администрировании компании для предпринимателей в Румынии.',
+    ogTitle: 'Практический семинар: бухгалтерия и администрирование компании',
+    ogDesc: 'Ивент LEX Business Hub для предпринимателей: ответственность, проверки и управление компанией.',
+  },
+  en: {
+    title: 'Practical Seminar in Bucharest — LEX Business Hub',
+    desc: 'A practical seminar on accounting and company administration for entrepreneurs in Romania.',
+    ogTitle: 'Practical seminar: accounting and company administration',
+    ogDesc: 'LEX Business Hub event for entrepreneurs: responsibilities, checks and company administration.',
+  },
+  uk: {
+    title: 'Практичний семінар у Бухаресті — LEX Business Hub',
+    desc: 'Практичний семінар про бухгалтерію та адміністрування компанії для підприємців у Румунії.',
+    ogTitle: 'Практичний семінар: бухгалтерія та адміністрування компанії',
+    ogDesc: 'Івент LEX Business Hub для підприємців: відповідальність, перевірки та управління компанією.',
+  },
+};
 
 export default async function middleware(req: Request): Promise<Response> {
   const cookie = req.headers.get('cookie') ?? '';
@@ -46,6 +81,17 @@ export default async function middleware(req: Request): Promise<Response> {
 
   // подтягиваем оригинальный index.html
   const url      = new URL(req.url);
+  const isEventPage = url.pathname === '/events' || url.pathname.startsWith('/events/');
+  const pageMeta = isEventPage ? EVENT_META[lang] : m;
+  const ogImage = isEventPage ? EVENT_OG_IMAGE : BASE_OG_IMAGE;
+  const ogType = isEventPage ? 'event' : 'website';
+  const ogImageWidth = isEventPage ? '818' : '1200';
+  const ogImageHeight = isEventPage ? '429' : '630';
+  const ogImageAlt = isEventPage
+    ? 'LEX Business Hub practical seminar in Bucharest'
+    : 'LEX Business Hub — Servicii juridice și de afaceri în România';
+  const pageUrl = `${SITE_URL}${url.pathname === '/index.html' ? '/' : url.pathname}`;
+
   url.pathname   = '/index.html';
   const original = await fetch(url.toString());
   let html       = await original.text();
@@ -53,12 +99,20 @@ export default async function middleware(req: Request): Promise<Response> {
   // патчим теги
   html = html
     .replace(/(<html[^>]*lang=")[^"]*(")/,             `$1${m.lang}$2`)
-    .replace(/(<title>)[^<]*(<\/title>)/,              `$1${m.title}$2`)
-    .replace(/(<meta\s+name="description"[^>]*content=")[^"]*(")/,       `$1${m.desc}$2`)
-    .replace(/(<meta\s+property="og:title"[^>]*content=")[^"]*(")/,      `$1${m.ogTitle}$2`)
-    .replace(/(<meta\s+property="og:description"[^>]*content=")[^"]*(")/,`$1${m.ogDesc}$2`)
-    .replace(/(<meta\s+property="og:image"[^>]*content=")[^"]*(")/,      `$1${OG_IMAGE}$2`)
-    .replace(/(<meta\s+property="og:locale"[^>]*content=")[^"]*(")/,     `$1${m.lang}$2`);
+    .replace(/(<title>)[^<]*(<\/title>)/,              `$1${pageMeta.title}$2`)
+    .replace(/(<meta\s+name="description"[^>]*content=")[^"]*(")/,       `$1${pageMeta.desc}$2`)
+    .replace(/(<meta\s+property="og:type"[^>]*content=")[^"]*(")/,       `$1${ogType}$2`)
+    .replace(/(<meta\s+property="og:title"[^>]*content=")[^"]*(")/,      `$1${pageMeta.ogTitle}$2`)
+    .replace(/(<meta\s+property="og:description"[^>]*content=")[^"]*(")/,`$1${pageMeta.ogDesc}$2`)
+    .replace(/(<meta\s+property="og:url"[^>]*content=")[^"]*(")/,        `$1${pageUrl}$2`)
+    .replace(/(<meta\s+property="og:image"[^>]*content=")[^"]*(")/,      `$1${ogImage}$2`)
+    .replace(/(<meta\s+property="og:image:width"[^>]*content=")[^"]*(")/, `$1${ogImageWidth}$2`)
+    .replace(/(<meta\s+property="og:image:height"[^>]*content=")[^"]*(")/, `$1${ogImageHeight}$2`)
+    .replace(/(<meta\s+property="og:image:alt"[^>]*content=")[^"]*(")/,   `$1${ogImageAlt}$2`)
+    .replace(/(<meta\s+property="og:locale"[^>]*content=")[^"]*(")/,     `$1${OG_LOCALES[lang]}$2`)
+    .replace(/(<meta\s+name="twitter:title"[^>]*content=")[^"]*(")/,     `$1${pageMeta.ogTitle}$2`)
+    .replace(/(<meta\s+name="twitter:description"[^>]*content=")[^"]*(")/, `$1${pageMeta.ogDesc}$2`)
+    .replace(/(<meta\s+name="twitter:image"[^>]*content=")[^"]*(")/,     `$1${ogImage}$2`);
 
   return new Response(html, {
     headers: {
@@ -70,6 +124,6 @@ export default async function middleware(req: Request): Promise<Response> {
 }
 
 export const config = {
-  matcher: ['/', '/index.html'],
+  matcher: ['/', '/index.html', '/events', '/events/:path*'],
   runtime: 'edge',
 };

@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { useLanguage } from '../context/LanguageContext';
@@ -76,6 +77,47 @@ const eventContent: Record<Lang, {
     total: 'Всього',
     places: 'місць',
     cta: 'ЗАБРОНЮВАТИ УЧАСТЬ',
+  },
+};
+
+const SITE_URL = 'https://www.lexbusinesshub.ro';
+const EVENT_URL = `${SITE_URL}/events`;
+const EVENT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
+
+const eventSeoContent: Record<Lang, {
+  title: string;
+  description: string;
+  ogTitle: string;
+  ogDescription: string;
+  locale: string;
+}> = {
+  ro: {
+    title: 'Seminar practic în București — LEX Business Hub',
+    description: 'Seminar practic despre contabilitate și administrarea companiei pentru antreprenori în România.',
+    ogTitle: 'Seminar practic: contabilitate și administrarea companiei',
+    ogDescription: 'Eveniment LEX Business Hub pentru antreprenori: responsabilități, verificări și administrarea companiei.',
+    locale: 'ro_RO',
+  },
+  ru: {
+    title: 'Практический семинар в Бухаресте — LEX Business Hub',
+    description: 'Практический семинар о бухгалтерии и администрировании компании для предпринимателей в Румынии.',
+    ogTitle: 'Практический семинар: бухгалтерия и администрирование компании',
+    ogDescription: 'Ивент LEX Business Hub для предпринимателей: ответственность, проверки и управление компанией.',
+    locale: 'ru_RU',
+  },
+  en: {
+    title: 'Practical Seminar in Bucharest — LEX Business Hub',
+    description: 'A practical seminar on accounting and company administration for entrepreneurs in Romania.',
+    ogTitle: 'Practical seminar: accounting and company administration',
+    ogDescription: 'LEX Business Hub event for entrepreneurs: responsibilities, checks and company administration.',
+    locale: 'en_US',
+  },
+  uk: {
+    title: 'Практичний семінар у Бухаресті — LEX Business Hub',
+    description: 'Практичний семінар про бухгалтерію та адміністрування компанії для підприємців у Румунії.',
+    ogTitle: 'Практичний семінар: бухгалтерія та адміністрування компанії',
+    ogDescription: 'Івент LEX Business Hub для підприємців: відповідальність, перевірки та управління компанією.',
+    locale: 'uk_UA',
   },
 };
 
@@ -323,6 +365,7 @@ export function EventsPage() {
   const secondSpeaker = secondSpeakerContent[lang];
   const outcomes = outcomesContent[lang];
   const registration = registrationContent[lang];
+  const seo = eventSeoContent[lang];
   const [registrationForm, setRegistrationForm] = useState({ name: '', phone: '+40', email: '', participant: 'individual', telegram: '', consent: false });
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'sending' | 'error'>('idle');
   const checkoutHref = 'https://buy.stripe.com/test_7sYdR92C4f9Jf7FgS29AA00';
@@ -348,6 +391,28 @@ export function EventsPage() {
 
   return (
     <div className="events-page">
+      <Helmet>
+        <html lang={lang} />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <link rel="canonical" href={EVENT_URL} />
+        <meta property="og:type" content="event" />
+        <meta property="og:site_name" content="LEX BUSINESS HUB" />
+        <meta property="og:url" content={EVENT_URL} />
+        <meta property="og:title" content={seo.ogTitle} />
+        <meta property="og:description" content={seo.ogDescription} />
+        <meta property="og:locale" content={seo.locale} />
+        <meta property="og:image" content={EVENT_OG_IMAGE} />
+        <meta property="og:image:secure_url" content={EVENT_OG_IMAGE} />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="818" />
+        <meta property="og:image:height" content="429" />
+        <meta property="og:image:alt" content="LEX Business Hub practical seminar in Bucharest" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={seo.ogTitle} />
+        <meta name="twitter:description" content={seo.ogDescription} />
+        <meta name="twitter:image" content={EVENT_OG_IMAGE} />
+      </Helmet>
       <Header />
       <main className="events-main">
         <section className="event-hero" aria-labelledby="event-title">
