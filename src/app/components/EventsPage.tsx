@@ -368,7 +368,7 @@ export function EventsPage() {
   const seo = eventSeoContent[lang];
   const [registrationForm, setRegistrationForm] = useState({ name: '', phone: '+40', email: '', participant: 'individual', telegram: '', consent: false });
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'sending' | 'error'>('idle');
-  const checkoutHref = 'https://buy.stripe.com/test_7sYdR92C4f9Jf7FgS29AA00';
+  const checkoutHref = 'https://buy.stripe.com/9B628qgZy8NB5ATcHWes000';
 
   const submitRegistration = async (event: React.FormEvent) => {
     event.preventDefault();
